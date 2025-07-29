@@ -76,5 +76,5 @@ if(length(args) > 0){
     }
   }
 } else {
-  cat('Usage: solve_env package1 package2 ...\n')
+  cat('Usage: solveEnv.r package1 package2 ...\n')
 }
