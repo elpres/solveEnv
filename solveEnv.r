@@ -70,7 +70,7 @@ if(length(args) > 0){
         # set up R to install its packages into the enviroment folder
         r_etc_dir <- paste0(env_path, '/lib/R/etc')
         stopifnot(dir.exists(r_etc_dir))
-        cat(paste0('R_LIBS=', env_path, '/lib/R/library'), file=paste0(env_path, '/lib/R/etc/Renviron.site'))
+        cat(paste0('R_LIBS=', env_path, '/lib/R/library'), file=paste0(r_etc_dir, '/Renviron.site'))
         # install packages that weren't found on Conda
         if(length(solution$r) > 0){
           command <- paste0("\"install.packages(c('", paste(sort(solution$r), collapse="','"),
