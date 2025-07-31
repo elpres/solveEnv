@@ -18,7 +18,7 @@ solve_ <- function(request){
     missing_pkgs <- sapply(gsub('^r-', '', result$packages), \(x){pkg[x == tolower(pkg)]})
     cat(paste('Not on Conda:', paste(missing_pkgs, collapse=' ')), '\n')
     for (missing_pkg in missing_pkgs){
-      # keep it if the user exlicitly wanted this one
+      # keep it if the user explicitly wanted this one
       if (missing_pkg %in% request){
         with_r <- union(with_r, missing_pkg)
       }
@@ -50,7 +50,7 @@ check_names <- function(pkg){
       found <- union(found, matches[[m]])
     } else {
       missing <- union(missing, m)
-q    }
+    }
   }
   list(found=sort(found), missing=sort(missing))
 }
@@ -67,7 +67,7 @@ if(length(args) > 0){
       cat('\nAn active Conda environment detected. Proceed with installation? [y/N] ')
       if (tolower(substr(readLines("stdin", n=1), 1, 1)) == 'y'){
         system2('conda', c('install', '-y', (if(length(solution$conda) > 0) solution$conda else 'r-base')))
-        # set up R to install its packages into the enviroment folder
+        # configure R to install its packages into the environment folder
         r_etc_dir <- paste0(env_path, '/lib/R/etc')
         stopifnot(dir.exists(r_etc_dir))
         cat(paste0('R_LIBS=', env_path, '/lib/R/library'), file=paste0(r_etc_dir, '/Renviron.site'))
