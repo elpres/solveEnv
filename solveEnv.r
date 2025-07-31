@@ -67,9 +67,14 @@ if(length(args) > 0){
       cat('\nAn active Conda environment detected. Proceed with installation? [y/N] ')
       if (tolower(substr(readLines("stdin", n=1), 1, 1)) == 'y'){
         system2('conda', c('install', '-y', (if(length(solution$conda) > 0) solution$conda else 'r-base')))
+        # set up R to install its packages into the enviroment folder
+        r_etc_dir <- paste0(env_path, '/lib/R/etc')
+        stopifnot(dir.exists(r_etc_dir))
+        cat(paste0('R_LIBS=', env_path, '/lib/R/library'), file=paste0(env_path, '/lib/R/etc/Renviron.site'))
+        # install packages that weren't found on Conda
         if(length(solution$r) > 0){
           command <- paste0("\"install.packages(c('", paste(sort(solution$r), collapse="','"),
-                            "'), lib='", env_path, "/lib/R/library', repos='https://cloud.r-project.org')\"")
+                            "'), repos='https://cloud.r-project.org')\"")
           system2('env', c(paste0('--unset=', grep('^R_', names(Sys.getenv()), value=T)), 'Rscript', '-e', command))
         }
       }
